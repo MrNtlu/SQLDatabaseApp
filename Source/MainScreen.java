@@ -63,8 +63,11 @@ public class MainScreen extends javax.swing.JFrame {
         plus_button = new javax.swing.JButton();
         decrease_button = new javax.swing.JButton();
         important_note = new javax.swing.JLabel();
+        clearFields = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(800, 600));
         setResizable(false);
 
         main_table.setModel(new javax.swing.table.DefaultTableModel(
@@ -168,6 +171,20 @@ public class MainScreen extends javax.swing.JFrame {
         important_note.setForeground(new java.awt.Color(255, 0, 0));
         important_note.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
+        clearFields.setText("Temizle");
+        clearFields.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearFieldsActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Devamsızlık Limiti Hesapla");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -177,41 +194,43 @@ public class MainScreen extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(46, 46, 46)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(important_note, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel3))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(31, 31, 31)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(lessonname_field)
+                                                .addComponent(absentlimit_field, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(29, 29, 29)
+                                            .addComponent(decrease_button)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(absentcount_field, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(plus_button)))))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(reset_all)
                                 .addGap(18, 18, 18)
                                 .addComponent(remove_selected)
                                 .addGap(18, 18, 18)
-                                .addComponent(update_selected))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(important_note, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel3))
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(31, 31, 31)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                    .addComponent(lessonname_field)
-                                                    .addComponent(absentlimit_field, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(29, 29, 29)
-                                                .addComponent(decrease_button)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(absentcount_field, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(plus_button)))))
-                                .addGap(50, 50, 50)
-                                .addComponent(addButton)))
-                        .addGap(0, 332, Short.MAX_VALUE))
+                                .addComponent(update_selected)))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addButton)
+                            .addComponent(jButton1)
+                            .addComponent(clearFields))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1))))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -219,29 +238,31 @@ public class MainScreen extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lessonname_field, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGap(18, 18, 18)
+                    .addComponent(jLabel1)
+                    .addComponent(clearFields))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(absentcount_field, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
-                    .addComponent(addButton)
                     .addComponent(plus_button)
-                    .addComponent(decrease_button))
-                .addGap(18, 18, 18)
+                    .addComponent(decrease_button)
+                    .addComponent(addButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(absentlimit_field, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addGap(14, 14, 14)
+                    .addComponent(jLabel3)
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(important_note, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(reset_all)
                     .addComponent(remove_selected)
                     .addComponent(update_selected))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -262,7 +283,7 @@ public class MainScreen extends javax.swing.JFrame {
         }
         return situation;
     }
-    
+    private boolean init;
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         try{
             String lesson_name=lessonname_field.getText();
@@ -270,12 +291,25 @@ public class MainScreen extends javax.swing.JFrame {
             int absent_count=Integer.parseInt(absentcount_field.getText());
             int absent_limit=Integer.parseInt(absentlimit_field.getText());
             String situation_text=situation_text(absent_count, absent_limit);
-            devamsizlikDB.addDatabaseValues(lesson_name, absent_count, absent_limit);
-            Object[] addtoTable={lesson_name,absent_count,absent_limit,situation_text};
-            model.addRow(addtoTable);
-            lessonname_field.setText("");
-            absentlimit_field.setText("");
-            absentcount_field.setText("");
+            
+            for (int i = 0; i < model.getRowCount(); i++) {
+                if (lesson_name.equals(model.getValueAt(i, 0))) {
+                    init=true;
+                    break;
+                }
+                init=false;
+            }
+            if (init) {
+                JOptionPane.showMessageDialog(this, "Bu ders zaten mevcut");
+            }
+            else{
+                devamsizlikDB.addDatabaseValues(lesson_name, absent_count, absent_limit);
+                Object[] addtoTable={lesson_name,absent_count,absent_limit,situation_text};
+                model.addRow(addtoTable);
+                lessonname_field.setText("");
+                absentlimit_field.setText("");
+                absentcount_field.setText("0");
+            }
         }catch(NumberFormatException ex){
             JOptionPane.showMessageDialog(this, "Lütfen Sayı Girin");
             absentcount_field.setText("");
@@ -322,7 +356,7 @@ public class MainScreen extends javax.swing.JFrame {
                 important_note.setText("Ders tablosu şuan boş.");
             }
             else{
-                important_note.setText("Lütfen güncellenecek bir ürün seçin.");
+                important_note.setText("Lütfen güncellenecek bir ders seçin.");
             }
         }
         
@@ -361,7 +395,7 @@ public class MainScreen extends javax.swing.JFrame {
             model.removeRow(choosen_row);
             devamsizlikDB.deleteDatabaseValue(ders_ismi);
             lessonname_field.setText("");
-            absentcount_field.setText("");
+            absentcount_field.setText("0");
             absentlimit_field.setText("");
         }
     }//GEN-LAST:event_remove_selectedActionPerformed
@@ -393,6 +427,18 @@ public class MainScreen extends javax.swing.JFrame {
         absentlimit_field.setText(model.getValueAt(choosen_row, 2).toString());
         
     }//GEN-LAST:event_main_tableMouseClicked
+
+    private void clearFieldsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearFieldsActionPerformed
+        lessonname_field.setText("");
+        absentcount_field.setText("");
+        absentlimit_field.setText("");
+        important_note.setText("");
+    }//GEN-LAST:event_clearFieldsActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        absentlimitCalculate alCal=new absentlimitCalculate(this, true);
+        alCal.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -435,10 +481,12 @@ public class MainScreen extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField absentcount_field;
-    private javax.swing.JTextField absentlimit_field;
+    public static javax.swing.JTextField absentlimit_field;
     private javax.swing.JButton addButton;
+    private javax.swing.JButton clearFields;
     private javax.swing.JButton decrease_button;
     private javax.swing.JLabel important_note;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

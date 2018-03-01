@@ -48,8 +48,6 @@ public class DevamsizlikDB {
         
     }
     
-    
-    
     public void resetDB(){
         try {
             statement=con.createStatement();
