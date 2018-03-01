@@ -23,7 +23,7 @@ import javax.swing.table.TableRowSorter;
  */
 public class MainScreen extends javax.swing.JFrame {
     DevamsizlikDB devamsizlikDB=new DevamsizlikDB();
-
+    String situation;
     private Connection con=null;
     private Statement statement=null;
     
@@ -250,19 +250,39 @@ public class MainScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     
+    public String situation_text(int absent_count,int absent_limit){
+        if (absent_count>absent_limit) {
+            situation="Devamsızlıktan Kaldı.";
+        }
+        else if(absent_count==absent_limit){
+            situation="Devamsızlık Sınırda.";
+        }
+        else{
+            situation=(absent_limit-absent_count)+" devamsızlık hakkı kaldı.";
+        }
+        return situation;
+    }
+    
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        
-        String lesson_name=lessonname_field.getText();
-        DefaultTableModel model=(DefaultTableModel)main_table.getModel();
-        int absent_count=Integer.parseInt(absentcount_field.getText());
-        int absent_limit=Integer.parseInt(absentlimit_field.getText());
-        devamsizlikDB.addDatabaseValues(lesson_name, absent_count, absent_limit);
-        Object[] addtoTable={lesson_name,absent_count,absent_limit};
-        model.addRow(addtoTable);
-        lessonname_field.setText("");
-        absentlimit_field.setText("");
-        absentcount_field.setText("");
+        try{
+            String lesson_name=lessonname_field.getText();
+            DefaultTableModel model=(DefaultTableModel)main_table.getModel();
+            int absent_count=Integer.parseInt(absentcount_field.getText());
+            int absent_limit=Integer.parseInt(absentlimit_field.getText());
+            String situation_text=situation_text(absent_count, absent_limit);
+            devamsizlikDB.addDatabaseValues(lesson_name, absent_count, absent_limit);
+            Object[] addtoTable={lesson_name,absent_count,absent_limit,situation_text};
+            model.addRow(addtoTable);
+            lessonname_field.setText("");
+            absentlimit_field.setText("");
+            absentcount_field.setText("");
+        }catch(NumberFormatException ex){
+            JOptionPane.showMessageDialog(this, "Lütfen Sayı Girin");
+            absentcount_field.setText("");
+            absentlimit_field.setText("");
+        }
     }//GEN-LAST:event_addButtonActionPerformed
+    
     
     public void showonTable(){
         
@@ -276,8 +296,10 @@ public class MainScreen extends javax.swing.JFrame {
                 String lesson_name=rs.getString("ders_adi");
                 int absent_count=rs.getInt("devamsizlik_sayisi");
                 int absent_limit=rs.getInt("devamsizlik_siniri");
-                Object[] addtoList={lesson_name,absent_count,absent_limit};
+                String situation_text=situation_text(absent_count, absent_limit);
+                Object[] addtoList={lesson_name,absent_count,absent_limit,situation_text};
                 model.addRow(addtoList);
+                
             }
             
         } catch (SQLException ex) {
@@ -305,10 +327,24 @@ public class MainScreen extends javax.swing.JFrame {
         }
         
         else{
-            model.setValueAt(lessonname_field.getText(), secili_row, 0);
-            model.setValueAt(absentcount_field.getText(), secili_row, 1);
-            model.setValueAt(absentlimit_field.getText(), secili_row, 2);
-            important_note.setText("Ders başarıyla güncellendi.");
+            try {
+                statement=devamsizlikDB.con.createStatement();
+                String sorgu="UPDATE `devamsizlik` SET `ders_adi` = '"+lessonname_field.getText()+"', `devamsizlik_sayisi` = '"+absentcount_field.getText()
+                        +"', `devamsizlik_siniri` = '"+absentlimit_field.getText()+"' WHERE `devamsizlik`.`ders_adi` = '"+lessonname_field.getText()+"'";
+                statement.executeUpdate(sorgu);
+                
+                model.setValueAt(lessonname_field.getText(), secili_row, 0);
+                model.setValueAt(absentcount_field.getText(), secili_row, 1);
+                model.setValueAt(absentlimit_field.getText(), secili_row, 2);
+                int absent_count=Integer.parseInt(absentcount_field.getText());
+                int absent_limit=Integer.parseInt(absentlimit_field.getText());
+                String situation_text=situation_text(absent_count, absent_limit);
+                model.setValueAt(situation_text, secili_row, 3);
+                important_note.setText("Ders başarıyla güncellendi.");
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_update_selectedActionPerformed
 
@@ -323,9 +359,10 @@ public class MainScreen extends javax.swing.JFrame {
         else{
             String ders_ismi=""+main_table.getValueAt(choosen_row,0);
             model.removeRow(choosen_row);
-            
             devamsizlikDB.deleteDatabaseValue(ders_ismi);
-
+            lessonname_field.setText("");
+            absentcount_field.setText("");
+            absentlimit_field.setText("");
         }
     }//GEN-LAST:event_remove_selectedActionPerformed
 

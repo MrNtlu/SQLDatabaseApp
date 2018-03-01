@@ -22,7 +22,7 @@ public class DevamsizlikDB {
     public LinkedHashSet<String> lesson_list=new LinkedHashSet<String>();
     public LinkedHashSet<Integer> absentcount_list=new LinkedHashSet<Integer>();
     public LinkedHashSet<Integer> absentlimit_list=new LinkedHashSet<Integer>();
-
+    public String situation_text;
     final String kullanici_adi="root";
     final String parola="";
     
@@ -47,6 +47,8 @@ public class DevamsizlikDB {
         }
         
     }
+    
+    
     
     public void resetDB(){
         try {
